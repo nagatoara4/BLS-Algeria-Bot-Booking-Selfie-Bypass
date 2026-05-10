@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D1117,50:01411C,100:FFFFFF&height=200&section=header&text=BLS%20PAKISTAN%20SELFIE%20BYPASS&fontSize=42&fontColor=FFFFFF&fontAlignY=38&desc=Real-Time%20Appointment%20Automation%20%2B%20Selfie%20Verification%20Bypass&descAlignY=58&descSize=16&animation=fadeIn" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D1117,50:01411C,100:FFFFFF&height=200&section=header&text=BLS%20Algeria%20SELFIE%20BYPASS&fontSize=42&fontColor=FFFFFF&fontAlignY=38&desc=Real-Time%20Appointment%20Automation%20%2B%20Selfie%20Verification%20Bypass&descAlignY=58&descSize=16&animation=fadeIn" width="100%"/>
 
 <br/>
 
@@ -24,11 +24,11 @@
 
 <br/>
 
-<img src="https://img.shields.io/github/stars/OnlineUnknow/bls-pakistan-selfie-bypass?style=social" />
+<img src="https://img.shields.io/github/stars/OnlineUnknow/bls-Algeria-selfie-bypass?style=social" />
 &nbsp;
-<img src="https://img.shields.io/github/forks/OnlineUnknow/bls-pakistan-selfie-bypass?style=social" />
+<img src="https://img.shields.io/github/forks/OnlineUnknow/bls-Algeria-selfie-bypass?style=social" />
 &nbsp;
-<img src="https://img.shields.io/github/watchers/OnlineUnknow/bls-pakistan-selfie-bypass?style=social" />
+<img src="https://img.shields.io/github/watchers/OnlineUnknow/bls-Algeria-selfie-bypass?style=social" />
 
 </div>
 
@@ -333,8 +333,8 @@ With this bot:       Launch → Credentials → Bypass → Select → Book → D
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/OnlineUnknow/bls-pakistan-selfie-bypass.git
-cd bls-pakistan-selfie-bypass
+git clone https://github.com/OnlineUnknow/bls-Algeria-selfie-bypass.git
+cd bls-Algeria-selfie-bypass
 
 # 2. Install dependencies
 pip install -r requirements.txt
