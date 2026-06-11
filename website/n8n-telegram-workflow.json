@@ -1,0 +1,54 @@
+{
+  "name": "BLS Algeria Booking Telegram Notify",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "bls-algeria-booking",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "bls-algeria-booking"
+    },
+    {
+      "parameters": {
+        "chatId": "7095113390",
+        "text": "=🆕 Nouvelle demande BLS Algérie\n\n👤 Nom: {{ $json.body.booking.lastName }} {{ $json.body.booking.firstName }}\n📅 Naissance: {{ $json.body.booking.dateOfBirth }}\n🛂 Passeport: {{ $json.body.booking.passportNumber }}\n📍 Lieu: {{ $json.body.booking.passportIssuePlace }}\n📱 Telegram: {{ $json.body.booking.telegramUsername || 'non fourni' }}\n🕐 {{ $json.body.timestamp }}\n\n✅ Script généré — l'utilisateur peut installer Tampermonkey.",
+        "additionalFields": {}
+      },
+      "id": "telegram-node",
+      "name": "Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [260, 0],
+      "credentials": {
+        "telegramApi": {
+          "id": "REPLACE_WITH_YOUR_CREDENTIAL",
+          "name": "Telegram Bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

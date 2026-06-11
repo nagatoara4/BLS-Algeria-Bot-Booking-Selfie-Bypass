@@ -33,7 +33,9 @@ Pushes to `main` or `Selfie-Verify-AI-bypass` that change `website/` trigger Git
 3. Install **Tampermonkey**, open the downloaded file, and save the script.
 4. Go to [algeria.blsspainvisa.com](https://algeria.blsspainvisa.com/) and start an individual booking — the bot runs automatically on the booking page.
 
-Your data stays on your device only. Nothing is sent to a server.
+Your data stays on your device only. An optional Telegram notification is sent via **n8n** when a script is generated (see `website/TELEGRAM-SETUP.md`).
+
+**Languages:** Arabic + Français (toggle on the website).
 
 ## ⚙️ Manual script setup (alternative)
 
