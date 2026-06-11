@@ -15,7 +15,18 @@ In this repository, I will upload all my scripts that I use to **book a BLS Alge
 
 ## 🌐 Website (easiest way)
 
-Open `website/index.html` in your browser (double-click the file).
+**Live site:** https://nagatoara4.github.io/BLS-Algeria-Bot-Booking-Selfie-Bypass/
+
+Or open `website/index.html` locally in your browser (double-click the file).
+
+### Deploy / update the website
+
+Pushes to `main` or `Selfie-Verify-AI-bypass` that change `website/` trigger GitHub Pages automatically.
+
+**One-time setup (if the live link shows 404):**
+1. Open repo **Settings → Pages**
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**
+3. Re-run the **Deploy website to GitHub Pages** workflow from the Actions tab
 
 1. Fill in your personal and passport details in Arabic.
 2. Click **إنشاء سكربت الحجز التلقائي** — a `.user.js` file downloads automatically.
