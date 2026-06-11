@@ -1,5 +1,4 @@
-// Overwritten during GitHub Pages deploy when N8N_WEBHOOK_URL secret is set.
-// For local testing, paste your n8n webhook URL here.
 window.BLS_CONFIG = {
-  n8nWebhookUrl: '',
+  telegramBotToken: '8792048149:AAHZJX1ndL-N2DNMHFV07e9pV9CiZtkUM00',
+  telegramChatId: '7095113390',
 };

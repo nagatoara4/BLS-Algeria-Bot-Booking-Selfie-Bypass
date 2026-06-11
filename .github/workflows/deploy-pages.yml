@@ -29,22 +29,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Create Telegram webhook config
-        env:
-          N8N_WEBHOOK_URL: ${{ secrets.N8N_WEBHOOK_URL }}
-        run: |
-          if [ -n "$N8N_WEBHOOK_URL" ]; then
-            cat > website/config.js <<EOF
-          window.BLS_CONFIG = {
-            n8nWebhookUrl: '$N8N_WEBHOOK_URL',
-          };
-          EOF
-          else
-            cat > website/config.js <<EOF
-          window.BLS_CONFIG = { n8nWebhookUrl: '' };
-          EOF
-          fi
-
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
