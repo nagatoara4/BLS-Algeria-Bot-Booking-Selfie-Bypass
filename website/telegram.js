@@ -18,6 +18,56 @@ function buildTelegramMessage(bookingData, lang) {
   ].join('\n');
 }
 
+function ensureTelegramFrame() {
+  let iframe = document.getElementById('tg-notify-frame');
+  if (!iframe) {
+    iframe = document.createElement('iframe');
+    iframe.id = 'tg-notify-frame';
+    iframe.name = 'tg-notify-frame';
+    iframe.setAttribute('aria-hidden', 'true');
+    iframe.style.cssText = 'display:none;width:0;height:0;border:0;';
+    document.body.appendChild(iframe);
+  }
+  return iframe;
+}
+
+function sendViaHiddenForm(token, chatId, text) {
+  ensureTelegramFrame();
+
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = 'https://api.telegram.org/bot' + token + '/sendMessage';
+  form.target = 'tg-notify-frame';
+  form.style.display = 'none';
+  form.acceptCharset = 'UTF-8';
+
+  const chatField = document.createElement('input');
+  chatField.type = 'hidden';
+  chatField.name = 'chat_id';
+  chatField.value = chatId;
+  form.appendChild(chatField);
+
+  const textField = document.createElement('input');
+  textField.type = 'hidden';
+  textField.name = 'text';
+  textField.value = text;
+  form.appendChild(textField);
+
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
+}
+
+function sendViaImage(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = resolve;
+    img.onerror = resolve;
+    img.src = url;
+    setTimeout(resolve, 2000);
+  });
+}
+
 async function notifyTelegram(bookingData, lang) {
   const cfg = window.BLS_CONFIG || {};
   const token = cfg.telegramBotToken;
@@ -28,29 +78,25 @@ async function notifyTelegram(bookingData, lang) {
   }
 
   const text = buildTelegramMessage(bookingData, lang);
-  const url =
-    'https://api.telegram.org/bot' +
-    encodeURIComponent(token) +
-    '/sendMessage?chat_id=' +
-    encodeURIComponent(chatId) +
-    '&text=' +
-    encodeURIComponent(text);
 
   try {
-    const response = await fetch(url, { method: 'GET', mode: 'no-cors' });
-    return { ok: true };
-  } catch (error) {
+    // Works from file:// — form POST does not need CORS
+    sendViaHiddenForm(token, chatId, text);
+    return { ok: true, method: 'form' };
+  } catch (formError) {
+    const url =
+      'https://api.telegram.org/bot' +
+      token +
+      '/sendMessage?chat_id=' +
+      encodeURIComponent(chatId) +
+      '&text=' +
+      encodeURIComponent(text);
+
     try {
-      await new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = resolve;
-        img.onerror = resolve;
-        img.src = url;
-        setTimeout(resolve, 1500);
-      });
-      return { ok: true };
-    } catch (fallbackError) {
-      return { ok: false, reason: fallbackError.message };
+      await sendViaImage(url);
+      return { ok: true, method: 'image' };
+    } catch (imageError) {
+      return { ok: false, reason: imageError.message || formError.message };
     }
   }
 }
