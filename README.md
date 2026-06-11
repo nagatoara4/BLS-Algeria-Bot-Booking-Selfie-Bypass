@@ -13,14 +13,40 @@ In this repository, I will upload all my scripts that I use to **book a BLS Alge
 
 ---
 
-## ⚙️ How to use it?
+## 🌐 Website (easiest way)
 
-1. Install **Source Code From Developer** Chrome extension.  
-2. Select a script in this repo that you wish to use (for BLS Algeria).  
-3. Copy the source code.  
-4. Open Tampermonkey in your browser and click the **“Add Script”** tab (icon with a plus ➕ symbol).  
-5. Paste the code inside the new script window and hit **Save**.  
-6. Enjoy automated checking — use responsibly.
+Open `website/index.html` in your browser (double-click the file).
+
+1. Fill in your personal and passport details in Arabic.
+2. Click **إنشاء سكربت الحجز التلقائي** — a `.user.js` file downloads automatically.
+3. Install **Tampermonkey**, open the downloaded file, and save the script.
+4. Go to [algeria.blsspainvisa.com](https://algeria.blsspainvisa.com/) and start an individual booking — the bot runs automatically on the booking page.
+
+Your data stays on your device only. Nothing is sent to a server.
+
+## ⚙️ Manual script setup (alternative)
+
+1. Install the **Tampermonkey** extension in Chrome or Firefox.  
+2. Open `individual_Appointment_scripts.js` from this repo.  
+3. Edit the `CONFIG` section at the top with your real personal data (name, passport, dates, etc.).  
+4. In Tampermonkey, click **Create a new script**, paste the code, and click **Save**.  
+5. Go to [algeria.blsspainvisa.com](https://algeria.blsspainvisa.com/) and start the individual appointment booking flow.  
+6. The script will:
+   - detect available appointment dates on the page,
+   - auto-select the first free date,
+   - fill your form fields,
+   - play an alert sound when a slot is found,
+   - auto-click submit every 10 seconds until you submit manually.  
+7. After payment, install `PaymentReceiptCatcher.js` the same way to auto-print the receipt and copy the payment link.
+
+### Optional: Python simulator
+
+```bash
+pip install -r requirements.txt
+python BLS.py generate --count 200
+python BLS.py simulate-check
+python BLS.py attempt-book --attempts 5
+```
 
 ---
 

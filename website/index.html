@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BLS الجزائر — حجز تلقائي مجاني</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b1220;
+      --surface: #121a2b;
+      --surface-2: #1a2438;
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #eef3ff;
+      --muted: #9aa8c7;
+      --accent: #2dd4bf;
+      --accent-2: #38bdf8;
+      --gold: #f5c451;
+      --danger: #fb7185;
+      --success: #4ade80;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Cairo", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(45, 212, 191, 0.12), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(56, 189, 248, 0.1), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.7;
+    }
+
+    .wrap {
+      width: min(980px, 92%);
+      margin: 0 auto;
+      padding: 2.5rem 0 4rem;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(45, 212, 191, 0.12);
+      border: 1px solid rgba(45, 212, 191, 0.25);
+      color: var(--accent);
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 680px;
+      margin: 0 auto 1.25rem;
+      font-size: 1.05rem;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.8rem 1.1rem;
+      min-width: 150px;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--gold);
+      font-size: 1.1rem;
+    }
+
+    .stat span { color: var(--muted); font-size: 0.9rem; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent), var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title {
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin: 1.2rem 0 0.7rem;
+      letter-spacing: 0.02em;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+    }
+
+    @media (max-width: 640px) {
+      .fields { grid-template-columns: 1fr; }
+    }
+
+    .field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 0.92rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    input, select {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 0.8rem 0.95rem;
+      font: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: rgba(45, 212, 191, 0.55);
+      box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.12);
+    }
+
+    .hint {
+      font-size: 0.8rem;
+      color: #7f8dab;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.2rem;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 12px;
+      padding: 0.85rem 1.2rem;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #041018;
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .btn-secondary {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      background: rgba(245, 196, 81, 0.12);
+      color: var(--gold);
+      border: 1px solid rgba(245, 196, 81, 0.25);
+    }
+
+    .steps {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .step {
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.95rem;
+    }
+
+    .step-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-2);
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .step h3 { font-size: 1rem; margin-bottom: 0.2rem; }
+    .step p { color: var(--muted); font-size: 0.92rem; }
+
+    .alert {
+      margin-top: 1rem;
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      display: none;
+    }
+
+    .alert.show { display: block; }
+    .alert.success {
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.25);
+      color: #bbf7d0;
+    }
+
+    .alert.error {
+      background: rgba(251, 113, 133, 0.1);
+      border: 1px solid rgba(251, 113, 133, 0.25);
+      color: #fecdd3;
+    }
+
+    .privacy {
+      margin-top: 1rem;
+      padding: 0.9rem;
+      border-radius: 12px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px dashed rgba(56, 189, 248, 0.25);
+      color: #cfe8ff;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 2rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 12px var(--success);
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="badge"><span class="status-dot"></span> مجاني — بياناتك تبقى على جهازك فقط</div>
+      <h1>نظام حجز مواعيد BLS الجزائر التلقائي</h1>
+      <p>
+        املأ معلوماتك مرة واحدة، وسنُنشئ سكربت حجز ذكي يعمل تلقائياً على الموقع الرسمي
+        عند ظهور موعد متاح.
+      </p>
+      <div class="stats">
+        <div class="stat"><strong>100%</strong><span>محلي على جهازك</span></div>
+        <div class="stat"><strong>تلقائي</strong><span>ملء + إرسال</span></div>
+        <div class="stat"><strong>رسمي</strong><span>عبر blsspainvisa.com</span></div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>📝 معلومات الحجز</h2>
+        <form id="booking-form" novalidate>
+          <div class="section-title">البيانات الشخصية</div>
+          <div class="fields">
+            <div class="field">
+              <label for="lastName">اللقب (كما في الجواز)</label>
+              <input id="lastName" name="lastName" placeholder="BENALI" required />
+            </div>
+            <div class="field">
+              <label for="firstName">الاسم (كما في الجواز)</label>
+              <input id="firstName" name="firstName" placeholder="Ahmed" required />
+            </div>
+            <div class="field">
+              <label for="dateOfBirth">تاريخ الميلاد</label>
+              <input id="dateOfBirth" name="dateOfBirth" type="date" required />
+              <span class="hint">مثال: 1990-05-15</span>
+            </div>
+            <div class="field">
+              <label for="passportIssuePlace">مكان إصدار الجواز</label>
+              <input id="passportIssuePlace" name="passportIssuePlace" placeholder="Alger" required />
+            </div>
+          </div>
+
+          <div class="section-title">بيانات جواز السفر</div>
+          <div class="fields">
+            <div class="field full">
+              <label for="passportNumber">رقم جواز السفر</label>
+              <input id="passportNumber" name="passportNumber" placeholder="123456789" required />
+            </div>
+            <div class="field">
+              <label for="passportIssueDate">تاريخ الإصدار</label>
+              <input id="passportIssueDate" name="passportIssueDate" type="date" required />
+            </div>
+            <div class="field">
+              <label for="passportExpiryDate">تاريخ الانتهاء</label>
+              <input id="passportExpiryDate" name="passportExpiryDate" type="date" required />
+            </div>
+            <div class="field">
+              <label for="franNumber">رقم FRAN (اختياري)</label>
+              <input id="franNumber" name="franNumber" placeholder="TG700123456" />
+            </div>
+            <div class="field">
+              <label for="visaTypeIndex">نوع التأشيرة (رقم الخيار)</label>
+              <input id="visaTypeIndex" name="visaTypeIndex" type="number" min="0" value="1" />
+            </div>
+            <div class="field">
+              <label for="passportTypeIndex">نوع الجواز (رقم الخيار)</label>
+              <input id="passportTypeIndex" name="passportTypeIndex" type="number" min="0" value="7" />
+            </div>
+          </div>
+
+          <div class="section-title">إعدادات البوت</div>
+          <div class="fields">
+            <div class="field">
+              <label for="reloadIntervalSec">إعادة تحميل الصفحة (ثواني)</label>
+              <input id="reloadIntervalSec" name="reloadIntervalSec" type="number" min="10" value="30" />
+            </div>
+            <div class="field">
+              <label for="submitIntervalSec">محاولة الإرسال كل (ثواني)</label>
+              <input id="submitIntervalSec" name="submitIntervalSec" type="number" min="5" value="10" />
+            </div>
+            <div class="field full">
+              <label for="playAlertSound">تشغيل صوت تنبيه عند وجود موعد</label>
+              <select id="playAlertSound" name="playAlertSound">
+                <option value="true">نعم</option>
+                <option value="false">لا</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn btn-primary">🚀 إنشاء سكربت الحجز التلقائي</button>
+            <button type="button" id="save-local" class="btn btn-secondary">💾 حفظ محلياً</button>
+            <button type="button" id="clear-local" class="btn btn-secondary">🗑️ مسح البيانات</button>
+          </div>
+
+          <div id="form-alert" class="alert"></div>
+          <div class="privacy">
+            🔒 خصوصيتك مهمة: لا نرسل بياناتك لأي سيرفر. السكربت يُنشأ في متصفحك فقط
+            وتثبته أنت في Tampermonkey.
+          </div>
+        </form>
+      </section>
+
+      <aside class="card">
+        <h2>⚡ كيف يعمل؟</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div>
+              <h3>املأ النموذج</h3>
+              <p>أدخل بياناتك كما في جواز السفر باللاتينية.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div>
+              <h3>حمّل السكربت</h3>
+              <p>اضغط إنشاء السكربت — سيُنزّل ملف <code>.user.js</code>.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div>
+              <h3>ثبّت Tampermonkey</h3>
+              <p>افتح الملف أو الصقه في Tampermonkey واحفظه.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div>
+              <h3>افتح الموقع الرسمي</h3>
+              <p>ابدأ حجز موعد فردي — البوت يعمل تلقائياً عند صفحة الحجز.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions" style="margin-top: 1.2rem;">
+          <a class="btn btn-link" style="width:100%;" href="https://algeria.blsspainvisa.com/" target="_blank" rel="noopener">
+            🌐 فتح موقع BLS الرسمي
+          </a>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      أداة مجانية للمساعدة في الحجز عبر الموقع الرسمي — ليست تابعة لـ BLS International.
+    </footer>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'bls_algeria_booking_form_v1';
+
+    function escapeJsString(value) {
+      return String(value)
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'")
+        .replace(/\r/g, '\\r')
+        .replace(/\n/g, '\\n');
+    }
+
+    function showAlert(message, type) {
+      const el = document.getElementById('form-alert');
+      el.textContent = message;
+      el.className = 'alert show ' + type;
+    }
+
+    function getFormData(form) {
+      const data = new FormData(form);
+      return {
+        lastName: data.get('lastName').trim(),
+        firstName: data.get('firstName').trim(),
+        dateOfBirth: data.get('dateOfBirth'),
+        passportNumber: data.get('passportNumber').trim(),
+        passportIssueDate: data.get('passportIssueDate'),
+        passportExpiryDate: data.get('passportExpiryDate'),
+        passportIssuePlace: data.get('passportIssuePlace').trim(),
+        franNumber: data.get('franNumber').trim() || 'TG700******',
+        visaTypeIndex: Number(data.get('visaTypeIndex')) || 1,
+        passportTypeIndex: Number(data.get('passportTypeIndex')) || 7,
+        reloadIntervalMs: (Number(data.get('reloadIntervalSec')) || 30) * 1000,
+        submitIntervalMs: (Number(data.get('submitIntervalSec')) || 10) * 1000,
+        playAlertSound: data.get('playAlertSound') === 'true',
+      };
+    }
+
+    function validateForm(data) {
+      const required = [
+        'lastName', 'firstName', 'dateOfBirth', 'passportNumber',
+        'passportIssueDate', 'passportExpiryDate', 'passportIssuePlace'
+      ];
+      for (const key of required) {
+        if (!data[key]) return 'يرجى ملء جميع الحقول المطلوبة.';
+      }
+      if (data.passportExpiryDate <= data.passportIssueDate) {
+        return 'تاريخ انتهاء الجواز يجب أن يكون بعد تاريخ الإصدار.';
+      }
+      return '';
+    }
+
+    function buildUserscript(config) {
+      const c = config;
+      return `// ==UserScript==
+// @name         BLS Algeria Auto-Book - ${escapeJsString(c.firstName)} ${escapeJsString(c.lastName)}
+// @namespace    bls-algeria-free-helper
+// @version      1.2
+// @description  Auto booking helper generated locally
+// @match        *://algeria.blsspainvisa.com/*
+// @match        *://*.blsspainvisa.com/*
+// @grant        none
+// @require      https://code.jquery.com/jquery-3.7.1.min.js
+// @run-at       document-idle
+// ==/UserScript==
+
+(function () {
+    'use strict';
+
+    const CONFIG = {
+        lastName: '${escapeJsString(c.lastName)}',
+        firstName: '${escapeJsString(c.firstName)}',
+        dateOfBirth: '${escapeJsString(c.dateOfBirth)}',
+        passportNumber: '${escapeJsString(c.passportNumber)}',
+        passportIssueDate: '${escapeJsString(c.passportIssueDate)}',
+        passportExpiryDate: '${escapeJsString(c.passportExpiryDate)}',
+        passportIssuePlace: '${escapeJsString(c.passportIssuePlace)}',
+        franNumber: '${escapeJsString(c.franNumber)}',
+        visaTypeIndex: ${c.visaTypeIndex},
+        passportTypeIndex: ${c.passportTypeIndex},
+        reloadIntervalMs: ${c.reloadIntervalMs},
+        submitIntervalMs: ${c.submitIntervalMs},
+        playAlertSound: ${c.playAlertSound},
+    };
+
+    const log = (msg) => console.log('[BLS Algeria Bot]', msg);
+    function byId(id) { return document.getElementById(id); }
+    function setValue(id, value) { const el = byId(id); if (el && value) el.value = value; }
+    function setDatepicker(id, value) {
+        if (!value || !byId(id)) return;
+        try { $('#' + id).datepicker('update', value); } catch (e) { log(e.message); }
+    }
+    function findAvailableDatesCode() {
+        for (let i = 0; i < document.scripts.length; i++) {
+            const script = document.scripts[i];
+            if (script && script.text && script.text.indexOf('available_dates') !== -1) return script.text;
+        }
+        return '';
+    }
+    function parseFirstAvailableDate(code) {
+        const start = code.indexOf('available_dates');
+        const end = code.indexOf('fullCapicity_dates');
+        if (start === -1 || end === -1 || end <= start) return '';
+        const table = code.slice(start + 20, end - 9);
+        if (!table) return '';
+        const datee = table.slice(0, 10);
+        return [datee.slice(6, 10), datee.slice(3, 5), datee.slice(0, 2)].join('-');
+    }
+    function playAlert() {
+        if (!CONFIG.playAlertSound) return;
+        new Audio('https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-the-sound-pack-tree/tspt_german_ambulance_sirens_wailing_loop_041.mp3')
+            .play().catch(() => log('Sound blocked'));
+    }
+    function fillPersonalDetails() {
+        setValue('first_name', CONFIG.firstName);
+        setValue('last_name', CONFIG.lastName);
+        setDatepicker('dateOfBirth', CONFIG.dateOfBirth);
+        setValue('passport_no', CONFIG.passportNumber);
+        setDatepicker('pptIssueDate', CONFIG.passportIssueDate);
+        setDatepicker('pptExpiryDate', CONFIG.passportExpiryDate);
+        setValue('pptIssuePalace', CONFIG.passportIssuePlace);
+        const visaType = byId('VisaTypeId'); if (visaType) visaType.selectedIndex = CONFIG.visaTypeIndex;
+        const fran = byId('fran'); if (fran) fran.value = CONFIG.franNumber;
+        const passportType = byId('passportType'); if (passportType) passportType.selectedIndex = CONFIG.passportTypeIndex;
+        const vasId12 = byId('vasId12'); if (vasId12) $('#vasId12').prop('checked', true);
+        const timeSelect = byId('app_time'); if (timeSelect && timeSelect.length > 1) timeSelect.selectedIndex = timeSelect.length - 1;
+        playAlert();
+        log('Details filled.');
+    }
+    function isFormReadyForSubmit() {
+        const required = ['app_date','app_time','VisaTypeId','first_name','last_name','dateOfBirth','passport_no','pptIssueDate','pptExpiryDate','pptIssuePalace'];
+        for (const id of required) { const el = byId(id); if (!el || !String(el.value || '').trim()) return false; }
+        const passportType = byId('passportType');
+        if (passportType && !String(passportType.value || '').trim()) return false;
+        return true;
+    }
+    function clickSubmit() {
+        if (!isFormReadyForSubmit()) return;
+        const submitBtn = document.getElementsByClassName('btn primary-btn')[0];
+        if (!submitBtn) return;
+        log('Submitting...');
+        submitBtn.click();
+    }
+    function scheduleReloadIfNoDate() {
+        const appDate = byId('app_date');
+        if (appDate && !appDate.value) setTimeout(() => window.location.reload(), CONFIG.reloadIntervalMs);
+    }
+    function run() {
+        const code = findAvailableDatesCode();
+        if (!code) { log('Waiting for slots...'); scheduleReloadIfNoDate(); return; }
+        const finDate = parseFirstAvailableDate(code);
+        const appDate = byId('app_date');
+        if (!appDate) return;
+        if (!appDate.value && finDate) { setDatepicker('app_date', finDate); log('Date selected: ' + finDate); }
+        else if (appDate.value) { fillPersonalDetails(); }
+        scheduleReloadIfNoDate();
+        const submitIntervalId = setInterval(clickSubmit, CONFIG.submitIntervalMs);
+        const submitBtn = document.getElementsByClassName('btn primary-btn')[0];
+        if (submitBtn) submitBtn.addEventListener('click', () => clearInterval(submitIntervalId));
+        log('Bot running.');
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+    else run();
+})();`;
+    }
+
+    function downloadScript(content, filename) {
+      const blob = new Blob([content], { type: 'text/javascript;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function saveToLocal(form) {
+      const data = getFormData(form);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      showAlert('تم حفظ بياناتك محلياً على هذا الجهاز فقط.', 'success');
+    }
+
+    function loadFromLocal(form) {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        form.lastName.value = data.lastName || '';
+        form.firstName.value = data.firstName || '';
+        form.dateOfBirth.value = data.dateOfBirth || '';
+        form.passportNumber.value = data.passportNumber || '';
+        form.passportIssueDate.value = data.passportIssueDate || '';
+        form.passportExpiryDate.value = data.passportExpiryDate || '';
+        form.passportIssuePlace.value = data.passportIssuePlace || '';
+        form.franNumber.value = data.franNumber || '';
+        form.visaTypeIndex.value = data.visaTypeIndex ?? 1;
+        form.passportTypeIndex.value = data.passportTypeIndex ?? 7;
+        form.reloadIntervalSec.value = (data.reloadIntervalMs || 30000) / 1000;
+        form.submitIntervalSec.value = (data.submitIntervalMs || 10000) / 1000;
+        form.playAlertSound.value = data.playAlertSound === false ? 'false' : 'true';
+      } catch (_) {}
+    }
+
+    const form = document.getElementById('booking-form');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = getFormData(form);
+      const error = validateForm(data);
+      if (error) {
+        showAlert(error, 'error');
+        return;
+      }
+
+      const script = buildUserscript(data);
+      const filename = 'bls-algeria-booking-' + data.lastName.toLowerCase() + '.user.js';
+      downloadScript(script, filename);
+      saveToLocal(form);
+
+      showAlert(
+        'تم إنشاء السكربت بنجاح! الخطوة التالية: ثبّت Tampermonkey → افتح الملف المحمّل → احفظه → ادخل موقع BLS وابدأ الحجز.',
+        'success'
+      );
+    });
+
+    document.getElementById('save-local').addEventListener('click', () => saveToLocal(form));
+    document.getElementById('clear-local').addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_KEY);
+      form.reset();
+      showAlert('تم مسح البيانات المحفوظة.', 'success');
+    });
+
+    loadFromLocal(form);
+  </script>
+</body>
+</html>

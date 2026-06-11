@@ -1,46 +1,56 @@
 // ==UserScript==
-// @name         Payment Method
+// @name         BLS Payment Receipt Catcher
 // @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  try to take over the world!
+// @version      1.1
+// @description  Auto-print payment receipt and copy payment link to clipboard.
 // @author       Itsmaarouf
 // @match        https://payment.cmi.co.ma/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
+// @require      https://code.jquery.com/jquery-3.7.1.min.js
+// @run-at       document-idle
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
-    /*
-    - This "if statement" checks if there is a PDF that needs to be printed.
-    - Because the payment receipt page is available only 3 seconds.
-    - whitout this function you will not get your payment receipt
-    */
-    if($('#print').length == 1){
-    window.print();
+    const log = (msg) => console.log('[BLS Payment]', msg);
+
+    function printReceiptIfAvailable() {
+        if ($('#print').length === 1) {
+            window.print();
+            log('Print dialog opened for payment receipt.');
+        }
     }
 
-    //Search for token on the payment page.
-    let token = document.querySelectorAll('input[name=paymentLinkToken]')[0].value;
-    //Prepare a URL to add a token to it.
-    let MyUrl = "https://payment.cmi.co.ma/fim/paymentLinkService?token=";
-    //Add token to URL
-    let result = MyUrl.concat(token);
-    //Print it out in the console
-    console.log(result)
-    
-    /*
-    - why i need to this URL?
-    - Because I want to send the link to the person I specified on the appointment at the Consulate.
-    */
+    function copyPaymentLink() {
+        const tokenInput = document.querySelector('input[name=paymentLinkToken]');
+        if (!tokenInput || !tokenInput.value) {
+            log('Payment token not found on this page.');
+            return;
+        }
 
-    //This function helps me to copy full url without opening console
-    navigator.clipboard.writeText(result).then(function () {
-        console.log('Async: Copying to clipboard was successful!');
-    }, function (err) {
-        console.error('Async: Could not copy text: ', err);
-    });
+        const paymentUrl = 'https://payment.cmi.co.ma/fim/paymentLinkService?token=' + tokenInput.value;
+        log('Payment URL: ' + paymentUrl);
 
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(paymentUrl).then(
+                () => log('Payment link copied to clipboard.'),
+                (err) => log('Clipboard copy failed: ' + err)
+            );
+        } else {
+            log('Clipboard API not available in this browser context.');
+        }
+    }
 
+    function run() {
+        printReceiptIfAvailable();
+        copyPaymentLink();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', run);
+    } else {
+        run();
+    }
 })();

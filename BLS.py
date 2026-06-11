@@ -96,7 +96,7 @@ class BLSRecord:
         self.expiry = expiry
         self.ref = ref
         self.balance = balance
-        self.generated_at = datetime.utcnow()
+        self.generated_at = datetime.now()
 
     def __str__(self):
         return f"{self.code}|{self.expiry}|{self.ref}|${self.balance}"
